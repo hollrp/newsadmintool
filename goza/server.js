@@ -1,5 +1,5 @@
-﻿var express = require('express')
-var dao = require('DAO')
+var express = require('express')
+var dao = require('./DAO')
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser());
@@ -13,51 +13,49 @@ switch(req.param('command'))
 
 {
 
-var dataResponse;
+
 
 case "add" :
-	dataResponse = dao.addNews(req.body)
+	dao.addNews(req.param('text0'),res)
 	break
 case "delete" :
-	dataResponse = dao.deleteNews(req.param('id'))
+	dao.deleteNews(req.param('id'),res)
 	break
 case "edit" :
-	dataResponse = dao.editNews(req.body)
+	dao.editNews(req.body,res)
 	break
 case "getAll" :
-	dataResponse = dao.getListOfNews()
+	dao.getListOfNews(res)
 	break
 case "getById" :
-	dataResponse = dao.getNewsById(req.param('id'))
+	dao.getNewsById(req.param('id'),res)
 	break
 
 	default:
-	alert('Неправильный запрос')
+	alert('������������ ������')
 }
 
 
-}
-  res.write(dataResponse);
 })
 
 
 
 		app.get('/', function (req, res) {
-		site = "пишите сюда страницу!!!!!!";
+		site = "������ ���� ��������!!!!!!";
 		res.write(site);
 		res.end()
-		
-})	
-	
-  
+
+})
+
+
 
 var server = app.listen(3000, function () {
 
   var host = server.address().address
   var port = server.address().port
-  
 
-  
+
+
   console.log('Example app listening at http://%s:%s', host, port)
- 
+
 })

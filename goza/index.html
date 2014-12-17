@@ -1,0 +1,46 @@
+﻿<!DOCTYPE HTML>
+
+<html>
+<head>
+<script type="text/javascript">
+function httpGet()
+{
+	myLoop();
+}
+
+function getXmlHttp(){
+	var xmlhttp;
+	if (window.XMLHttpRequest)
+  	{
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else
+	{
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  	}
+  	return xmlhttp;
+}
+
+function myLoop ()
+{
+	setTimeout(function () {sendRequest();myLoop();}, 1000);
+}
+
+
+function sendRequest()
+{
+	var xmlhttp = getXmlHttp();
+	xmlhttp.open("POST", "http://localhost:3000",false);
+	xmlhttp.onreadystatechange = function() {
+		document.querySelector('#status').innerHTML = xmlhttp.responseText;
+	};
+	xmlhttp.send("sadasdsa");
+	xmlhttp.abort();
+}
+</script>
+</head>
+<body onload="sendRequest()">
+
+<p id="status"></p>
+</body>
+</html>
