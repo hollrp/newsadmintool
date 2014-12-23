@@ -8,7 +8,7 @@ var site = "";
 app.post('/', function (req, res) {
 console.log("Params = ",req.param('text0'))
 console.log("Body = ",req.body);
-
+console.log("command = ",req.param('command'));
 switch(req.param('command'))
 
 {
@@ -22,7 +22,7 @@ case "delete" :
 	dao.deleteNews(req.param('id'),res)
 	break
 case "edit" :
-	dao.editNews(req.body,res)
+	dao.editNews(req.param('text0'),res)
 	break
 case "getAll" :
 	dao.getListOfNews(res)

@@ -1,46 +1,95 @@
-﻿<!DOCTYPE HTML>
-
 <html>
 <head>
-<script type="text/javascript">
-function httpGet()
-{
-	myLoop();
-}
+<title>My First Grid</title>
+<link rel="stylesheet" type="text/css" href="src/css/ui.jqgrid.css"/>
+<link rel="stylesheet" type="text/css" href="src/css/ui.multiselect.css"/>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/redmond/jquery-ui.css" type="text/css" />
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 
-function getXmlHttp(){
-	var xmlhttp;
-	if (window.XMLHttpRequest)
-  	{
-  		xmlhttp=new XMLHttpRequest();
-  	}
-	else
-	{
-  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  	}
-  	return xmlhttp;
-}
+<!-- // <script type="text/javascript">
+//   jQuery.extend(jQuery.jgrid.defaults, { altRows:true });
 
-function myLoop ()
-{
-	setTimeout(function () {sendRequest();myLoop();}, 1000);
-}
+// </script> -->
 
-
-function sendRequest()
-{
-	var xmlhttp = getXmlHttp();
-	xmlhttp.open("POST", "http://localhost:3000",false);
-	xmlhttp.onreadystatechange = function() {
-		document.querySelector('#status').innerHTML = xmlhttp.responseText;
-	};
-	xmlhttp.send("sadasdsa");
-	xmlhttp.abort();
-}
-</script>
+<script src="jqgrid.js" type="text/javascript"></script>
 </head>
-<body onload="sendRequest()">
+<body>
+  <table>
+    <tr>
 
-<p id="status"></p>
+
+      <td>
+      <table border="1">
+        <tr>
+          <td>Head:</td>
+          <td><input type="text" id="head_add"></input></td>
+        </tr>
+        <tr>
+          <td>Body:</td>
+          <td><input type="text" id="body_add"></input></td>
+        </tr>
+        <tr>
+        <td>Picture:</td>
+          <td><input type="text" id="picture_add"></input></td>
+        </tr>
+        <tr>
+        <td>Use flag:</td>
+          <td><input type="text" id="use_flag_add"></input></td>
+        </tr>
+        <tr>
+          <td>News date:</td>
+          <td><input type="text" id="news_date_add"></input></td>
+        </tr>
+        <tr>
+          <td><input type="button" id="news_add_button" value="Add" ></input></td>
+        </tr>
+
+      </table>
+      <table border="1">
+        <tr>
+          <td>Head:</td>
+          <td><input type="text" id="head_edit" disabled="true"></input></td>
+        </tr>
+        <tr>
+          <td>Body:</td>
+          <td><input type="text" id="body_edit" disabled="true"></input></td>
+        </tr>
+        <tr>
+        <td>Picture:</td>
+          <td><input type="text" id="picture_edit" disabled="true"></input></td>
+        </tr>
+        <tr>
+        <td>Use flag:</td>
+          <td><input type="text" id="use_flag_edit" disabled="true"></input></td>
+        </tr>
+        <tr>
+          <td>News date:</td>
+          <td><input type="text" id="news_date_edit" disabled="true"></input></td>
+        </tr>
+        <tr>
+          <td><input type="button" id="news_edit_button" value="Edit" disabled="true"></input></td>
+        </tr>
+
+      </table>
+      <input type="button" id="news_delete_button" value="Delete selected" ></input>      
+      </td>
+
+
+      <td>
+      <table id="grid"></table>
+      <div id="pager"></div>
+      </td>
+
+
+
+      </tr>
+
+  </table>
+
+
+
+
 </body>
 </html>

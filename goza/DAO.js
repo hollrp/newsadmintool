@@ -10,7 +10,7 @@ var connection = mysql.createConnection({
 connection.connect();
 
 var addNews=function(jsonString,response)
-  {
+  {console.log("ololo add");
 
   var data = JSON.parse(jsonString);
 
@@ -51,7 +51,8 @@ var deleteNews=function(id,response){
 
 var editNews=function(jsonString,response){
   var data = JSON.parse(jsonString);
-  var query = "update news set head='"+data.head+"',body='"+data.body+"',picture='"+data.picture+"',use_flag='"+data.use_flag+"',news_date='"+data.news_date+"'";
+  console.log("ololo");
+  var query = "update news set head='"+data.head+"',body='"+data.body+"',picture='"+data.picture+"',use_flag='"+data.use_flag+"',news_date='"+data.news_date+"' where id="+data.id;
 //  connection.connect();
   connection.query(query, function(err,rows,fields)
   {
@@ -70,23 +71,24 @@ var editNews=function(jsonString,response){
 var getListOfNews=function(response){
   var query = "select * from news";
   var emptyArray={};
-  var arr = new Array();
+  var arr = [];
 //  connection.connect();
   connection.query(query, function(err,results)
   {
     if(!err)
     {
       for(var i=0;i<results.length;i++){
-        arr[i] =emptyArray;
-        arr[i]["head"]=results[i].head;
-        arr[i]["body"]=results[i].body;
-        arr[i]["picture"]=results[i].picture;
-        arr[i]["use_flag"]=results[i].use_flag;
-        arr[i]["news_date"]=results[i].news_date;
+        var newsAdd = {};
+        newsAdd["id"]=results[i].id;
+      newsAdd["head"]=results[i].head;
+        newsAdd["body"]=results[i].body;
+        newsAdd["picture"]=results[i].picture;
+        newsAdd["use_flag"]=results[i].use_flag;
+      newsAdd["news_date"]=results[i].news_date;
+      arr.push(newsAdd);
       }
-      resultJson = JSON.parse(JSON.stringify(arr));
-      console.log(resultJson);
-      response.end(JSON.stringify(resultJson),"UTF-8");
+      //console.log(arr);
+      response.end(JSON.stringify(arr),"UTF-8");
 
     }
     else
@@ -107,6 +109,7 @@ var getNewsById=function(id,response){
   {
     if(!err)
     {
+      arr["id"]=results[0]['id'];
       arr["head"]=results[0]['head'];
       arr["body"]=results[0]['body'];
       arr["picture"]=results[0]['picture'];
@@ -125,6 +128,7 @@ var getNewsById=function(id,response){
 
 
 module.exports.addNews = addNews;
+module.exports.editNews = editNews;
 module.exports.deleteNews = deleteNews;
 module.exports.getNewsById = getNewsById;
 module.exports.getListOfNews = getListOfNews;
