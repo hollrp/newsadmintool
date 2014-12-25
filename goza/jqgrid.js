@@ -152,15 +152,19 @@ jQuery(document).ready(function () {
   });
   $("#news_add_button").click(function(){
     var p=document.getElementById("image-file").value;
-    setCookie("img",p,1);
     var addNewsArray = {};
+    var pictureAdd = base64x_pre_encode(getBase64Image(p));
+    if(pictureAdd.length>75000){
+      alert("Picture is too big!");
+      return;
+    }
     addNewsArray["head"] = document.getElementById("head_add").value;
     addNewsArray["body"] = document.getElementById("body_add").value;
-    addNewsArray["picture"] =  base64x_pre_encode(getBase64Image());
+    addNewsArray["picture"] = pictureAdd;
     addNewsArray["use_flag"] = document.getElementById("use_flag_add").value;
     addNewsArray["news_date"] = document.getElementById("news_date_add").value;
     addNewsArray["news_group"] = document.getElementById("news_group_add").value;
-    alert(JSON.stringify(addNewsArray));
+
     sendRequest("add","&text0="+JSON.stringify(addNewsArray));
     location.reload();
   });
@@ -314,15 +318,15 @@ function find(headParam)
 var p;var canvas = document.createElement("canvas");
 var img1=document.createElement("img");
 
-function getBase64Image(){
+function getBase64Image(path){
 
-    var pp=getCookie("img");
+    var pp=path;
     img1.setAttribute('src',pp);
     canvas.width = img1.width;
     canvas.height = img1.height;
     var ctx = canvas.getContext("2d");
     ctx.drawImage(img1, 0, 0);
-    var dataURL = canvas.toDataURL("image/bmp");alert("from getbase64 function"+dataURL );
+    var dataURL = canvas.toDataURL("image/bmp");
     document.getElementById("myimage").setAttribute("src",dataURL);
     return dataURL;
 }
