@@ -164,6 +164,51 @@ connection.query(query, function(err,results)
 });
 //  connection.end();
 };
+
+/*Use this function!!!*/
+var markAsOld=function(){
+  var query = "SELECT * FROM news where use_flag=1";
+  var emptyArray={};
+  var arr = [];
+  var idArray = [];
+//  connection.connect();
+  connection.query(query, function(err,results)
+  {
+    if(!err)
+    {
+      for(var i=0;i<results.length;i++){
+      var date1 = results[i].news_date;
+      var date2 = new Date();
+      var daysOfNewsLive=(date2-date1)/(1000*60*60*24);
+      if(daysOfNewsLive>7){
+        idArray.push(results[i].id);
+      }
+      }
+
+      for(var i=0;i<idArray.length;i++){
+      markNewsAsUnused(idArray[i]);
+      }
+    }
+    else
+    {
+    console.log(err);
+    }
+  });
+}
+
+function markNewsAsUnused(id){
+  var query = "update news set use_flag='"+0+"' where id="+id;
+  console.log(query);
+//  connection.connect();
+  connection.query(query, function(err,rows,fields)
+  {
+    if(err){
+      console.log(err);
+    }
+  });
+}
+
+module.exports.markAsOld = markAsOld;
 module.exports.findNewsByHead=findNewsByHead;
 module.exports.addNews = addNews;
 module.exports.editNews = editNews;
