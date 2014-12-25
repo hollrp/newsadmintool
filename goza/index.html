@@ -7,7 +7,7 @@
 <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
 <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
-
+<script src="./tools/binary.js"></script>
 <!-- // <script type="text/javascript">
 //   jQuery.extend(jQuery.jgrid.defaults, { altRows:true });
 
@@ -32,7 +32,7 @@
         </tr>
         <tr>
         <td>Picture:</td>
-          <td><input type="text" id="picture_add"></input></td>
+          <td><input id="image-file" type="file" /></td>
         </tr>
         <tr>
         <td>Use flag:</td>
@@ -62,7 +62,7 @@
         </tr>
         <tr>
         <td>Picture:</td>
-          <td><input type="text" id="picture_edit" disabled="true"></input></td>
+          <td><input id="image-file" type="file"></input><br/><img id="myimage"/></td>
         </tr>
         <tr>
         <td>Use flag:</td>
@@ -120,4 +120,5 @@
 </table>
 
 </body>
+
 </html>
