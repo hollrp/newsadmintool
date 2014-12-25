@@ -136,6 +136,7 @@ jQuery(document).ready(function () {
             document.getElementById("myimage").setAttribute("src", grid.jqGrid('getCell', ids[0], 'picture'));
           document.getElementById("head_edit").value=grid.jqGrid('getCell', ids[0], 'head');
           document.getElementById("body_edit").value=grid.jqGrid('getCell', ids[0], 'body');
+          document.getElementById("hid").value=grid.jqGrid('getCell', ids[0], 'picture');
           document.getElementById("use_flag_edit").value=grid.jqGrid('getCell', ids[0], 'use_flag');
           document.getElementById("news_date_edit").value=grid.jqGrid('getCell', ids[0], 'news_date');
           document.getElementById("news_group_edit").value=grid.jqGrid('getCell', ids[0], 'news_group');
@@ -169,10 +170,22 @@ jQuery(document).ready(function () {
     location.reload();
   });
   $("#news_edit_button").click(function(){
+    var p=document.getElementById("image-file-edit").value;
+    var pictureEdit = base64x_pre_encode(getBase64Image(p));
+    if(pictureEdit.length>75000){
+      alert("Picture is too big!");
+      return;
+    }
     var editNewsArray = {};
+    if(pictureEdit=="data:,"){
+          editNewsArray["picture"] =base64x_pre_encode(document.getElementById("hid").value);
+    } else {
+      editNewsArray["picture"] =  pictureEdit;
+    }
+
     editNewsArray["head"] = document.getElementById("head_edit").value;
     editNewsArray["body"] = document.getElementById("body_edit").value;
-    editNewsArray["picture"] = document.getElementById("picture_edit").value;
+
     editNewsArray["use_flag"] = document.getElementById("use_flag_edit").value;
     editNewsArray["news_date"] = document.getElementById("news_date_edit").value;
     editNewsArray["news_group"] = document.getElementById("news_group_edit").value;
