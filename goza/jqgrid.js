@@ -133,7 +133,7 @@ jQuery(document).ready(function () {
           var ids = grid.jqGrid('getGridParam','selarrrow');
           if(ids.length==1){
 
-            document.getElementById("myimage").setAttribute("src", grid.jqGrid('getCell', ids[0], 'picture'));
+          //  document.getElementById("myimage").setAttribute("src", grid.jqGrid('getCell', ids[0], 'picture'));
           document.getElementById("head_edit").value=grid.jqGrid('getCell', ids[0], 'head');
           document.getElementById("body_edit").value=grid.jqGrid('getCell', ids[0], 'body');
           document.getElementById("hid").value=grid.jqGrid('getCell', ids[0], 'picture');
@@ -153,18 +153,51 @@ jQuery(document).ready(function () {
   });
   $("#news_add_button").click(function(){
     var p=document.getElementById("image-file").value;
+    if(p.length == 0){
+      alert("You must choose picture!");
+      return;
+    }
     var addNewsArray = {};
     var pictureAdd = base64x_pre_encode(getBase64Image(p));
     if(pictureAdd.length>75000){
       alert("Picture is too big!");
       return;
     }
-    addNewsArray["head"] = document.getElementById("head_add").value;
-    addNewsArray["body"] = document.getElementById("body_add").value;
+    var headAdd =  document.getElementById("head_add").value;
+    var bodyAdd =   document.getElementById("body_add").value;
+    var flagAdd = document.getElementById("use_flag_add").value;
+    var dateAdd = document.getElementById("news_date_add").value
+    var newsGroupAdd = document.getElementById("news_group_add").value;
+
+    if(headAdd.length>99){
+      alert("Head value is too long!");
+      return;
+    }
+
+    if(newsGroupAdd.length>99){
+      alert("News group value is too long!");
+      return;
+    }
+
+    if(flagAdd!=1 && flagAdd!=0){
+      alert("Invalid use flag!");
+      return;
+    }
+    if(headAdd.length ==0 || newsGroupAdd.length ==0 || flagAdd.length ==0 || bodyAdd.length ==0 || newsGroupAdd.length ==0){
+      alert("One or some of your fields is empty!");
+      return;
+    }
+    if(newsGroupAdd!="group1" && newsGroupAdd!="group2"){
+      alert("Invalid group name. It must be either group1 or group2!");
+      return;
+    }
+    addNewsArray["head"] = headAdd;
+    addNewsArray["body"] = bodyAdd;
     addNewsArray["picture"] = pictureAdd;
-    addNewsArray["use_flag"] = document.getElementById("use_flag_add").value;
-    addNewsArray["news_date"] = document.getElementById("news_date_add").value;
-    addNewsArray["news_group"] = document.getElementById("news_group_add").value;
+    addNewsArray["use_flag"] = flagAdd;
+    addNewsArray["news_date"] = dateAdd;
+    addNewsArray["news_group"] = newsGroupAdd;
+
 
     sendRequest("add","&text0="+JSON.stringify(addNewsArray));
     location.reload();
@@ -183,12 +216,40 @@ jQuery(document).ready(function () {
       editNewsArray["picture"] =  pictureEdit;
     }
 
-    editNewsArray["head"] = document.getElementById("head_edit").value;
-    editNewsArray["body"] = document.getElementById("body_edit").value;
 
-    editNewsArray["use_flag"] = document.getElementById("use_flag_edit").value;
-    editNewsArray["news_date"] = document.getElementById("news_date_edit").value;
-    editNewsArray["news_group"] = document.getElementById("news_group_edit").value;
+    var headEdit = document.getElementById("head_edit").value;
+    var bodyEdit = document.getElementById("body_edit").value;
+    var useFlagEdit = document.getElementById("use_flag_edit").value;
+    var newsDateEdit = document.getElementById("news_date_edit").value;
+    var newsGroupEdit = document.getElementById("news_group_edit").value;
+    if(headEdit.length>99){
+      alert("Head value is too long!");
+      return;
+    }
+    if(useFlagEdit.length>99){
+      alert("News group value is too long!");
+      return;
+    }
+    if(useFlagEdit!=1 && useFlagEdit!=0){
+      alert("Invalid use flag!");
+      return;
+    }
+
+    if(headEdit.length ==0 || newsGroupEdit.length ==0 || useFlagEdit.length ==0 || bodyEdit.length ==0){
+      alert("One or some of your fields is empty!");
+      return;
+    }
+    if(newsGroupEdit!="group1" && newsGroupEdit!="group2"){
+      alert("Invalid group name. It must be either group1 or group2!");
+      return;
+    }
+
+
+    editNewsArray["head"] = headEdit;
+    editNewsArray["body"] = bodyEdit;
+    editNewsArray["use_flag"] = useFlagEdit;
+    editNewsArray["news_date"] = newsDateEdit;
+    editNewsArray["news_group"] = newsGroupEdit;
     var ids = grid.jqGrid('getGridParam','selarrrow');
     editNewsArray["id"] = grid.jqGrid('getCell', ids[0], 'id');
     sendRequest("edit","&text0="+JSON.stringify(editNewsArray));
@@ -340,7 +401,7 @@ function getBase64Image(path){
     var ctx = canvas.getContext("2d");
     ctx.drawImage(img1, 0, 0);
     var dataURL = canvas.toDataURL("image/bmp");
-    document.getElementById("myimage").setAttribute("src",dataURL);
+    //document.getElementById("myimage").setAttribute("src",dataURL);
     return dataURL;
 }
 
