@@ -61,11 +61,12 @@ var server = app.listen(3000, function () {
 var schedule = require('node-schedule');
 
 var rule = new schedule.RecurrenceRule();
-rule.minute = 41;
+rule.hour = 6;
+rule.minute = 0;
 
-var j = schedule.scheduleJob(rule, function(){
+var mark = schedule.scheduleJob(rule, function(){
 	dao.markAsOld();
-    console.log('All marks old');
+    console.log('All old news marks old');
 });
 
   console.log('Example app listening at http://%s:%s', host, port)
