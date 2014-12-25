@@ -55,12 +55,6 @@ jQuery(document).ready(function () {
       }
     }
 
-//if(getCookie("img")!=null){
-//  getBase64Image();
-
-//}
-
-
   /*Parse respunse from server*/
   mydata=JSON.parse(mydata);
 
@@ -92,7 +86,7 @@ jQuery(document).ready(function () {
                 },
           {name:'picture',
                  index:'picture',
-                 width:'5%',formatter:imageFormat, unformat:imageUnFormat
+                 width:'5%'
                 },
           {name:'use_flag',
                  index:'use_flag',
@@ -123,19 +117,18 @@ jQuery(document).ready(function () {
       onSelectRow: function (id) {
         var ids = grid.jqGrid('getGridParam','selarrrow');
         if(ids.length==1){
-
           document.getElementById("head_edit").disabled = false;
           document.getElementById("body_edit").disabled = false;
+          document.getElementById("picture_edit").disabled = false;
           document.getElementById("use_flag_edit").disabled = false;
           document.getElementById("news_date_edit").disabled = false;
           document.getElementById("news_group_edit").disabled = false;
           document.getElementById("news_edit_button").disabled = false;
           var ids = grid.jqGrid('getGridParam','selarrrow');
           if(ids.length==1){
-
-            document.getElementById("myimage").setAttribute("src", grid.jqGrid('getCell', ids[0], 'picture'));
           document.getElementById("head_edit").value=grid.jqGrid('getCell', ids[0], 'head');
           document.getElementById("body_edit").value=grid.jqGrid('getCell', ids[0], 'body');
+          document.getElementById("picture_edit").value=grid.jqGrid('getCell', ids[0], 'picture');
           document.getElementById("use_flag_edit").value=grid.jqGrid('getCell', ids[0], 'use_flag');
           document.getElementById("news_date_edit").value=grid.jqGrid('getCell', ids[0], 'news_date');
           document.getElementById("news_group_edit").value=grid.jqGrid('getCell', ids[0], 'news_group');
@@ -143,6 +136,7 @@ jQuery(document).ready(function () {
         } else {
         document.getElementById("head_edit").disabled = true;
           document.getElementById("body_edit").disabled = true;
+          document.getElementById("picture_edit").disabled = true;
           document.getElementById("use_flag_edit").disabled = true;
           document.getElementById("news_date_edit").disabled = true;
           document.getElementById("news_group_edit").disabled = true;
@@ -151,16 +145,13 @@ jQuery(document).ready(function () {
       }
   });
   $("#news_add_button").click(function(){
-    var p=document.getElementById("image-file").value;
-    setCookie("img",p,1);
     var addNewsArray = {};
     addNewsArray["head"] = document.getElementById("head_add").value;
     addNewsArray["body"] = document.getElementById("body_add").value;
-    addNewsArray["picture"] =  base64x_pre_encode(getBase64Image());
+    addNewsArray["picture"] = document.getElementById("picture_add").value;
     addNewsArray["use_flag"] = document.getElementById("use_flag_add").value;
     addNewsArray["news_date"] = document.getElementById("news_date_add").value;
     addNewsArray["news_group"] = document.getElementById("news_group_add").value;
-    alert(JSON.stringify(addNewsArray));
     sendRequest("add","&text0="+JSON.stringify(addNewsArray));
     location.reload();
   });
@@ -309,28 +300,4 @@ function find(headParam)
   };
   xmlhttp.send("sadasdsa");
   xmlhttp.abort();
-}
-
-var p;var canvas = document.createElement("canvas");
-var img1=document.createElement("img");
-
-function getBase64Image(){
-
-    var pp=getCookie("img");
-    img1.setAttribute('src',pp);
-    canvas.width = img1.width;
-    canvas.height = img1.height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img1, 0, 0);
-    var dataURL = canvas.toDataURL("image/bmp");alert("from getbase64 function"+dataURL );
-    document.getElementById("myimage").setAttribute("src",dataURL);
-    return dataURL;
-}
-
-function imageFormat( cellvalue, options, rowObject ){
- return '<img src="'+base64x_pre_decode(cellvalue)+'" />';
-}
-
-function imageUnFormat( cellvalue, options, cell){
-	return $('img', cell).attr('src');
 }
