@@ -52,12 +52,21 @@ case "find" :
 
 
 
+
 var server = app.listen(3000, function () {
 
   var host = server.address().address
   var port = server.address().port
 
+var schedule = require('node-schedule');
 
+var rule = new schedule.RecurrenceRule();
+rule.minute = 41;
+
+var j = schedule.scheduleJob(rule, function(){
+	dao.markAsOld();
+    console.log('All marks old');
+});
 
   console.log('Example app listening at http://%s:%s', host, port)
 
