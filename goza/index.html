@@ -43,6 +43,10 @@
           <td><input type="text" id="news_date_add"></input></td>
         </tr>
         <tr>
+          <td>News group:</td>
+          <td><input type="text" id="news_group_add"></input></td>
+        </tr>
+        <tr>
           <td><input type="button" id="news_add_button" value="Add" ></input></td>
         </tr>
 
@@ -69,11 +73,15 @@
           <td><input type="text" id="news_date_edit" disabled="true"></input></td>
         </tr>
         <tr>
+          <td>News group:</td>
+          <td><input type="text" id="news_group_edit" disabled="true"></input></td>
+        </tr>
+        <tr>
           <td><input type="button" id="news_edit_button" value="Edit" disabled="true"></input></td>
         </tr>
 
       </table>
-      <input type="button" id="news_delete_button" value="Delete selected" ></input>      
+      <input type="button" id="news_delete_button" value="Delete selected" ></input>
       </td>
 
 
@@ -87,9 +95,29 @@
       </tr>
 
   </table>
+  <table border="1">
+    <tr><td>Number of pages:</td><td><p id="page_number"></p></td></tr>
+    <tr><td>Number of records:</td><td><p id="records_number"></p></td></tr>
+    <tr><td><input type="button" id="page_input_button" value="Go to page"></input></td><td><input type="number" id="page_input"></input></td></tr>
+  </table>
 
+</table>
+  <table border="1">
+    <tr><td><input type="button" id="search_button" value="search"></input></td><td><input type="text" id="search_input"></input></td></tr>
+  </table>
 
+<table border="1">
+  <tr><td>Show:</td></tr>
+  <tr><td><input type="button" id="group1_button" value="Group1"></input></td></tr>
+  <tr><td><input type="button" id="group2_button" value="Group2"></input></td></tr>
+  <tr><td><input type="button" id="all_button" value="All"></input></td></tr>
+</table>
 
+<table border="1">
+  <tr><td>Show:</td></tr>
+  <tr><td><input type="button" id="actual_button" value="Actual news"></input></td></tr>
+  <tr><td><input type="button" id="not_actual_button" value="Not actual news"></input></td></tr>
+</table>
 
 </body>
 </html>

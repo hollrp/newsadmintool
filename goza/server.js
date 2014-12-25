@@ -25,10 +25,13 @@ case "edit" :
 	dao.editNews(req.param('text0'),res)
 	break
 case "getAll" :
-	dao.getListOfNews(res)
+	dao.getListOfNews(req.param('from'),req.param('group'),req.param('use_flag_param'),res)
 	break
-case "getById" :
-	dao.getNewsById(req.param('id'),res)
+case "getRowsNum" :
+	dao.getRowsNum(req.param('group'),req.param('use_flag_param'),res)
+	break
+case "find" :
+	dao.findNewsByHead(req.param('head_param'),res)
 	break
 
 	default:
