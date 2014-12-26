@@ -1,0 +1,61 @@
+.ui-jqgrid tr.jqgrow td {
+        word-wrap: break-word; / IE 5.5+ and CSS3 /
+        white-space: pre-wrap; / CSS3 /
+        white-space: -moz-pre-wrap; / Mozilla, since 1999 /
+        white-space: -pre-wrap; / Opera 4-6 /
+        white-space: -o-pre-wrap; / Opera 7 /
+        overflow: hidden;
+        height: auto;
+        vertical-align:text-top;
+        padding-top: 3px;
+        padding-bottom: 3px
+    }
+.main {
+width:100%;
+height:90%;
+   }
+.right_panel {
+width:49%;
+height:99%;
+   }
+.left_panel {
+float:right;
+width:50%;
+height:99%;
+  
+   }
+.add {
+float:left;
+width:47%;
+height:59%;
+   }
+.edit {
+float:right;
+width:49%;
+height:59%;
+ 
+   }
+.page_l {
+float:left;
+width:47%;
+height:19%;
+   
+   }
+.show_l {
+float:left;
+width:47%;
+height:29%;
+   
+   }
+.page_r {
+float:right;
+width:47%;
+height:19%;
+    
+   }
+.show_r {
+float:right;
+width:47%;
+height:29%;
+    
+   }

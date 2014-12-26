@@ -72,7 +72,8 @@ jQuery(document).ready(function () {
       data: mydata,
       datatype: "local",
       height: 500,
-      width: 500,
+    autowidth:true,
+     shrinkToFit:false,
       colNames:['Id','Head','Body','Picture','Use flag','News date','Group'],
       colModel:[
           {name:'id',
@@ -83,28 +84,28 @@ jQuery(document).ready(function () {
                 },
           {name:'head',
                  index:'head',
-                 width:'20%',
+                 width:100,
            frozen:true
                 },
           {name:'body',
                  index:'body',
-                 width:'60%'
+                 width:200
                 },
           {name:'picture',
                  index:'picture',
-                 width:'5%',formatter:imageFormat, unformat:imageUnFormat
+                 width:100,formatter:imageFormat, unformat:imageUnFormat
                 },
           {name:'use_flag',
                  index:'use_flag',
-                 width:'5%'
+                 width:50
                 },
           {name:'news_date',
                  index:'news_date',
-                  width:'5%'
+                  width:100
                 },
           {name:'news_group',
                  index:'news_group',
-                  width:'5%'
+                  width:70
                 }
                 ],
       pager: '#pager',

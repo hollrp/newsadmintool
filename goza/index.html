@@ -2,6 +2,7 @@
 <head>
 <title>My First Grid</title>
 <link rel="stylesheet" type="text/css" href="src/css/ui.jqgrid.css"/>
+<link rel="stylesheet" type="text/css" href="style.css"/>
 <link rel="stylesheet" type="text/css" href="src/css/ui.multiselect.css"/>
 <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/redmond/jquery-ui.css" type="text/css" />
 <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
@@ -16,19 +17,30 @@
 <script src="jqgrid.js" type="text/javascript"></script>
 </head>
 <body>
-  <table>
-    <tr>
-
-
-      <td>
-      <table border="1">
+  <div class="main">
+    <div class="left_panel">
+    <table id="grid"></table>
+    <div id="pager"></div>
+    <input type="button" id="news_delete_button" style="width:50%;height:50" value="Delete selected" align="left"></input>
+    <table  align="right" style="width:50%">
+      <tr><td>Number of pages:</td><td><p id="page_number"></p></td></tr>
+      <tr><td>Number of records:</td><td><p id="records_number"></p></td></tr>
+      <tr><td><input type="button" id="page_input_button" value="Go to page"></input></td><td><input type="number" id="page_input"></input></td></tr>
+    </table>
+    <table  align="left" width="50%">
+      <tr><td><input type="button" style="width:100%" id="search_button" value="search"></input></td><td><input type="text" style="width:100%" id="search_input"></input></td></tr>
+    </table>
+    </div>
+    <div class="right_panel">
+      <div class="add">
+      <table >
         <tr>
           <td>Head:</td>
-          <td><input type="text" id="head_add"></input></td>
+          <td><input type="text" id="head_add" style="width:100%;height:40"></input></td>
         </tr>
         <tr>
           <td>Body:</td>
-          <td><input type="text" id="body_add"></input></td>
+          <td><input type="text" id="body_add" style="width:100%;height:100"></input></td>
         </tr>
         <tr>
         <td>Picture:</td>
@@ -36,89 +48,81 @@
         </tr>
         <tr>
         <td>Use flag:</td>
-          <td><input type="text" id="use_flag_add"></input></td>
+          <td><input type="text" id="use_flag_add" style="width:100%;height:40"></input></td>
         </tr>
         <tr>
           <td>News date:</td>
-          <td><input type="text" id="news_date_add"></input></td>
+          <td><input type="text" id="news_date_add" style="width:100%;height:40"></input></td>
         </tr>
         <tr>
           <td>News group:</td>
-          <td><input type="text" id="news_group_add"></input></td>
+          <td><input type="text" id="news_group_add" style="width:100%;height:40"></input></td>
         </tr>
         <tr>
-          <td><input type="button" id="news_add_button" value="Add" ></input></td>
+          <td><input type="button" id="news_add_button" style="width:100%;height:40" value="Add" ></input></td>
         </tr>
 
       </table>
-      <table border="1">
-        <tr>
-          <td>Head:</td>
-          <td><input type="text" id="head_edit" disabled="true"></input></td>
-        </tr>
-        <tr>
-          <td>Body:</td>
-          <td><input type="text" id="body_edit" disabled="true"></input></td>
-        </tr>
-        <tr>
-        <td>Picture:</td>
-          <td><input id="image-file-edit" type="file"></input><br/><input type="hidden" id="hid"></td>
-        </tr>
-        <tr>
-        <td>Use flag:</td>
-          <td><input type="text" id="use_flag_edit" disabled="true"></input></td>
-        </tr>
-        <tr>
-          <td>News date:</td>
-          <td><input type="text" id="news_date_edit" disabled="true"></input></td>
-        </tr>
-        <tr>
-          <td>News group:</td>
-          <td><input type="text" id="news_group_edit" disabled="true"></input></td>
-        </tr>
-        <tr>
-          <td><input type="button" id="news_edit_button" value="Edit" disabled="true"></input></td>
-        </tr>
 
-      </table>
-      <input type="button" id="news_delete_button" value="Delete selected" ></input>
-      </td>
+      </div>
+      <div class="edit">
+        <table >
+          <tr>
+            <td>Head:</td>
+            <td><input type="text" id="head_edit" disabled="true" style="width:100%;height:40"></input></td>
+          </tr>
+          <tr>
+            <td>Body:</td>
+            <td><input type="text" id="body_edit" disabled="true" style="width:100%;height:100"></input></td>
+          </tr>
+          <tr>
+          <td>Picture:</td>
+            <td><input id="image-file-edit" type="file"></input><br/><input type="hidden" id="hid"></td>
+          </tr>
+          <tr>
+          <td>Use flag:</td>
+            <td><input type="text" id="use_flag_edit" disabled="true" style="width:100%;height:40"></input></td>
+          </tr>
+          <tr>
+            <td>News date:</td>
+            <td><input type="text" id="news_date_edit" disabled="true" style="width:100%;height:40"></input></td>
+          </tr>
+          <tr>
+            <td>News group:</td>
+            <td><input type="text" id="news_group_edit" disabled="true" style="width:100%;height:40"></input></td>
+          </tr>
+          <tr>
+            <td><input type="button"  id="news_edit_button" value="Edit" disabled="true" style="width:100%;height:40"></input></td>
+          </tr>
+
+        </table>
+
+      </div>
+      <div class="page_l">
+
+      </div>
+      <div class="page_r">
 
 
-      <td>
-      <table id="grid"></table>
-      <div id="pager"></div>
-      </td>
 
-
-
-      </tr>
-
-  </table>
-  <table border="1">
-    <tr><td>Number of pages:</td><td><p id="page_number"></p></td></tr>
-    <tr><td>Number of records:</td><td><p id="records_number"></p></td></tr>
-    <tr><td><input type="button" id="page_input_button" value="Go to page"></input></td><td><input type="number" id="page_input"></input></td></tr>
-  </table>
-
-</table>
-  <table border="1">
-    <tr><td><input type="button" id="search_button" value="search"></input></td><td><input type="text" id="search_input"></input></td></tr>
-  </table>
-
-<table border="1">
-  <tr><td>Show:</td></tr>
-  <tr><td><input type="button" id="group1_button" value="Group1"></input></td></tr>
-  <tr><td><input type="button" id="group2_button" value="Group2"></input></td></tr>
-  <tr><td><input type="button" id="all_button" value="All"></input></td></tr>
-</table>
-
-<table border="1">
-  <tr><td>Show:</td></tr>
-  <tr><td><input type="button" id="actual_button" value="Actual news"></input></td></tr>
-  <tr><td><input type="button" id="not_actual_button" value="Not actual news"></input></td></tr>
-</table>
-
+      </div>
+      <div class="show_l">
+          <table  width="100%" >
+            <tr><td align="center">Show:</td></tr>
+            <tr><td><input type="button" style="width:100%;height:45" id="group1_button" value="Group1"></input></td></tr>
+            <tr><td><input type="button" style="width:100%;height:45" id="group2_button" value="Group2"></input></td></tr>
+            <tr><td><input type="button" style="width:100%;height:45" id="all_button" value="All"></input></td></tr>
+          </table>
+      </div>
+      <div class="show_r">
+        <table width="100%" >
+          <tr><td align="center">Show:</td></tr>
+          <tr><td><input type="button" style="width:100%;height:65" id="actual_button" value="Actual news"></input></td></tr>
+          <tr><td><input type="button" style="width:100%;height:65" id="not_actual_button" value="Not actual news"></input></td></tr>
+        </table>
+      </div>
+      </div>
+  </div>
 </body>
 
 </html>
