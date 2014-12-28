@@ -71,7 +71,7 @@ jQuery(document).ready(function () {
   grid.jqGrid({
       data: mydata,
       datatype: "local",
-      height: 500,
+      height: 580,
     autowidth:true,
      shrinkToFit:false,
       colNames:['Id','Head','Body','Picture','Use flag','News date','Group'],
@@ -79,28 +79,28 @@ jQuery(document).ready(function () {
           {name:'id',
                   index:'id',hidden:true,
                   key: true,
-                  width:50,
+                  width:75,
                   sorttype: "int"
                 },
           {name:'head',
                  index:'head',
-                 width:100,
+                 width:200,
            frozen:true
                 },
           {name:'body',
                  index:'body',
-                 width:200
+                 width:450
                 },
           {name:'picture',
                  index:'picture',
-                 width:100,formatter:imageFormat, unformat:imageUnFormat
+                 width:150,formatter:imageFormat, unformat:imageUnFormat
                 },
           {name:'use_flag',
                  index:'use_flag',
-                 width:50
+                 width:75
                 },
           {name:'news_date',
-                 index:'news_date',
+                 index:'news_date',formatoptions: { newformat: "Y-m-d" }, formatter: "date",
                   width:100
                 },
           {name:'news_group',
@@ -153,117 +153,168 @@ jQuery(document).ready(function () {
       }
   });
   $("#news_add_button").click(function(){
-    var p=document.getElementById("image-file").value;
-    if(p.length == 0){
-      alert("You must choose picture!");
-      return;
-    }
-    var addNewsArray = {};
-    var pictureAdd = base64x_pre_encode(getBase64Image(p));
-    if(pictureAdd.length>75000){
-      alert("Picture is too big!");
-      return;
-    }
-    var headAdd =  document.getElementById("head_add").value;
-    var bodyAdd =   document.getElementById("body_add").value;
-    var flagAdd = document.getElementById("use_flag_add").value;
-    var dateAdd = document.getElementById("news_date_add").value;
-    var newsGroupAdd = document.getElementById("news_group_add").value;
-    var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
-    if(!pattern.test(dateAdd)){
-      alert("Invalid format of date! It must be yyyy-mm-dd");
-      return;
-    }
-    if(headAdd.length>99){
-      alert("Head value is too long!");
-      return;
-    }
+    var imageFile = document.getElementById("image-file").files[0];
+      var formatreader = new FileReader();
+      formatreader.onloadend = function(e){
+        var imageData = e.target.result;
+        var addNewsArray = {};
+        var pictureAdd = base64x_pre_encode(imageData);
+        if(pictureAdd.length>75000){
+          alert("Picture is too big!");
+          return;
+        }
+        var headAdd =  document.getElementById("head_add").value;
+        var bodyAdd =   document.getElementById("body_add").value;
+        var flagAdd = document.getElementById("use_flag_add").value;
+        var dateAdd = document.getElementById("news_date_add").value;
+        var newsGroupAdd = document.getElementById("news_group_add").value;
+        var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
+        if(!pattern.test(dateAdd)){
+          alert("Invalid format of date! It must be yyyy-mm-dd");
+          return;
+        }
+        if(headAdd.length>99){
+          alert("Head value is too long!");
+          return;
+        }
 
-    if(newsGroupAdd.length>99){
-      alert("News group value is too long!");
-      return;
-    }
+        if(newsGroupAdd.length>99){
+          alert("News group value is too long!");
+          return;
+        }
 
-    if(flagAdd!=1 && flagAdd!=0){
-      alert("Invalid use flag!");
-      return;
-    }
-    if(headAdd.length ==0 || newsGroupAdd.length ==0 || flagAdd.length ==0 || bodyAdd.length ==0 || newsGroupAdd.length ==0){
-      alert("One or some of your fields is empty!");
-      return;
-    }
-    if(newsGroupAdd!="group1" && newsGroupAdd!="group2"){
-      alert("Invalid group name. It must be either group1 or group2!");
-      return;
-    }
-    addNewsArray["head"] = headAdd;
-    addNewsArray["body"] = bodyAdd;
-    addNewsArray["picture"] = pictureAdd;
-    addNewsArray["use_flag"] = flagAdd;
-    addNewsArray["news_date"] = dateAdd;
-    addNewsArray["news_group"] = newsGroupAdd;
+        if(flagAdd!=1 && flagAdd!=0){
+          alert("Invalid use flag!");
+          return;
+        }
+        if(headAdd.length ==0 || newsGroupAdd.length ==0 || flagAdd.length ==0 || bodyAdd.length ==0 || newsGroupAdd.length ==0){
+          alert("One or some of your fields is empty!");
+          return;
+        }
+        if(newsGroupAdd!="group1" && newsGroupAdd!="group2"){
+          alert("Invalid group name. It must be either group1 or group2!");
+          return;
+        }
+        addNewsArray["head"] = headAdd;
+        addNewsArray["body"] = bodyAdd;
+        addNewsArray["picture"] = pictureAdd;
+        addNewsArray["use_flag"] = flagAdd;
+        addNewsArray["news_date"] = dateAdd;
+        addNewsArray["news_group"] = newsGroupAdd;
 
 
-    sendRequest("add","&text0="+JSON.stringify(addNewsArray));
-    location.reload();
+        sendRequest("add","&text0="+JSON.stringify(addNewsArray));
+        location.reload();
+      }
+  formatreader.readAsDataURL(imageFile);
   });
   $("#news_edit_button").click(function(){
-    var p=document.getElementById("image-file-edit").value;
-    var pictureEdit = base64x_pre_encode(getBase64Image(p));
-    if(pictureEdit.length>75000){
-      alert("Picture is too big!");
-      return;
-    }
-    var editNewsArray = {};
-    if(pictureEdit=="data:,"){
-          editNewsArray["picture"] =base64x_pre_encode(document.getElementById("hid").value);
+    var imageFile = document.getElementById("image-file-edit").files[0];
+    if(imageFile!=null){
+      var formatreader = new FileReader();
+      formatreader.onloadend = function(e){
+        var imageData = e.target.result;
+        var pictureEdit = base64x_pre_encode(imageData);
+        if(pictureEdit.length>75000){
+          alert("Picture is too big!");
+          return;
+        }
+        var editNewsArray = {};
+
+          editNewsArray["picture"] =  pictureEdit;
+
+
+
+        var headEdit = document.getElementById("head_edit").value;
+        var bodyEdit = document.getElementById("body_edit").value;
+        var useFlagEdit = document.getElementById("use_flag_edit").value;
+        var newsDateEdit = document.getElementById("news_date_edit").value;
+        var newsGroupEdit = document.getElementById("news_group_edit").value;
+        var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
+        if(!pattern.test(newsDateEdit)){
+          alert("Invalid format of date! It must be yyyy-mm-dd");
+          return;
+        }
+        if(headEdit.length>99){
+          alert("Head value is too long!");
+          return;
+        }
+        if(useFlagEdit.length>99){
+          alert("News group value is too long!");
+          return;
+        }
+        if(useFlagEdit!=1 && useFlagEdit!=0){
+          alert("Invalid use flag!");
+          return;
+        }
+
+        if(headEdit.length ==0 || newsGroupEdit.length ==0 || useFlagEdit.length ==0 || bodyEdit.length ==0){
+          alert("One or some of your fields is empty!");
+          return;
+        }
+        if(newsGroupEdit!="group1" && newsGroupEdit!="group2"){
+          alert("Invalid group name. It must be either group1 or group2!");
+          return;
+        }
+
+
+        editNewsArray["head"] = headEdit;
+        editNewsArray["body"] = bodyEdit;
+        editNewsArray["use_flag"] = useFlagEdit;
+        editNewsArray["news_date"] = newsDateEdit;
+        editNewsArray["news_group"] = newsGroupEdit;
+        var ids = grid.jqGrid('getGridParam','selarrrow');
+        editNewsArray["id"] = grid.jqGrid('getCell', ids[0], 'id');
+        sendRequest("edit","&text0="+JSON.stringify(editNewsArray));
+        location.reload();
+
+      }
+      formatreader.readAsDataURL(imageFile);
     } else {
-      editNewsArray["picture"] =  pictureEdit;
+        var editNewsArray = {};
+        editNewsArray["picture"] =base64x_pre_encode(document.getElementById("hid").value);
+        var headEdit = document.getElementById("head_edit").value;
+        var bodyEdit = document.getElementById("body_edit").value;
+        var useFlagEdit = document.getElementById("use_flag_edit").value;
+        var newsDateEdit = document.getElementById("news_date_edit").value;
+        var newsGroupEdit = document.getElementById("news_group_edit").value;
+        var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
+        if(!pattern.test(newsDateEdit)){
+          alert("Invalid format of date! It must be yyyy-mm-dd");
+          return;
+        }
+        if(headEdit.length>99){
+          alert("Head value is too long!");
+          return;
+        }
+        if(useFlagEdit.length>99){
+          alert("News group value is too long!");
+          return;
+        }
+        if(useFlagEdit!=1 && useFlagEdit!=0){
+          alert("Invalid use flag!");
+          return;
+        }
+
+        if(headEdit.length ==0 || newsGroupEdit.length ==0 || useFlagEdit.length ==0 || bodyEdit.length ==0){
+          alert("One or some of your fields is empty!");
+          return;
+        }
+        if(newsGroupEdit!="group1" && newsGroupEdit!="group2"){
+          alert("Invalid group name. It must be either group1 or group2!");
+          return;
+        }
+        editNewsArray["head"] = headEdit;
+        editNewsArray["body"] = bodyEdit;
+        editNewsArray["use_flag"] = useFlagEdit;
+        editNewsArray["news_date"] = newsDateEdit;
+        editNewsArray["news_group"] = newsGroupEdit;
+        var ids = grid.jqGrid('getGridParam','selarrrow');
+        editNewsArray["id"] = grid.jqGrid('getCell', ids[0], 'id');
+        sendRequest("edit","&text0="+JSON.stringify(editNewsArray));
+        location.reload();
     }
 
-
-    var headEdit = document.getElementById("head_edit").value;
-    var bodyEdit = document.getElementById("body_edit").value;
-    var useFlagEdit = document.getElementById("use_flag_edit").value;
-    var newsDateEdit = document.getElementById("news_date_edit").value;
-    var newsGroupEdit = document.getElementById("news_group_edit").value;
-    var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
-    if(!pattern.test(newsDateEdit)){
-      alert("Invalid format of date! It must be yyyy-mm-dd");
-      return;
-    }
-    if(headEdit.length>99){
-      alert("Head value is too long!");
-      return;
-    }
-    if(useFlagEdit.length>99){
-      alert("News group value is too long!");
-      return;
-    }
-    if(useFlagEdit!=1 && useFlagEdit!=0){
-      alert("Invalid use flag!");
-      return;
-    }
-
-    if(headEdit.length ==0 || newsGroupEdit.length ==0 || useFlagEdit.length ==0 || bodyEdit.length ==0){
-      alert("One or some of your fields is empty!");
-      return;
-    }
-    if(newsGroupEdit!="group1" && newsGroupEdit!="group2"){
-      alert("Invalid group name. It must be either group1 or group2!");
-      return;
-    }
-
-
-    editNewsArray["head"] = headEdit;
-    editNewsArray["body"] = bodyEdit;
-    editNewsArray["use_flag"] = useFlagEdit;
-    editNewsArray["news_date"] = newsDateEdit;
-    editNewsArray["news_group"] = newsGroupEdit;
-    var ids = grid.jqGrid('getGridParam','selarrrow');
-    editNewsArray["id"] = grid.jqGrid('getCell', ids[0], 'id');
-    sendRequest("edit","&text0="+JSON.stringify(editNewsArray));
-    location.reload();
   });
   $("#news_delete_button").click(function(){
     var ids = grid.jqGrid('getGridParam','selarrrow');
@@ -400,27 +451,38 @@ function find(headParam)
   xmlhttp.abort();
 }
 
-var p;var canvas = document.createElement("canvas");
-var img1=document.createElement("img");
+/*var p;var canvas = document.createElement("canvas");
+var img1;
+
 
 function getBase64Image(path){
 
     var pp=path;
-
-    img1.setAttribute('src',pp);
-canvas.setAttribute('origin-clean','true');
+img1=document.getElementById("img");
+img.crossOrigin = '';
     canvas.width = img1.width;
     canvas.height = img1.height;
     var ctx = canvas.getContext("2d");
-img1.crossOrigin = "Anonymous";
     ctx.drawImage(img1, 0, 0);
     var dataURL = canvas.toDataURL("image/bmp");
     //document.getElementById("myimage").setAttribute("src",dataURL);
     return dataURL;
 }
 
+function previewFile() {
+
+}*/
 function imageFormat( cellvalue, options, rowObject ){
  return '<img src="'+base64x_pre_decode(cellvalue)+'" />';
+}
+function dateFormat(cellvalue, options, rowObject ){
+  var now = new Date();
+  now.parse('yyyy-mm-dd');
+return now;
+}
+
+function dateUnformat(cellvalue, options, rowObject){
+  return cellvalue;
 }
 
 function imageUnFormat( cellvalue, options, cell){
