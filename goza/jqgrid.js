@@ -167,9 +167,13 @@ jQuery(document).ready(function () {
     var headAdd =  document.getElementById("head_add").value;
     var bodyAdd =   document.getElementById("body_add").value;
     var flagAdd = document.getElementById("use_flag_add").value;
-    var dateAdd = document.getElementById("news_date_add").value
+    var dateAdd = document.getElementById("news_date_add").value;
     var newsGroupAdd = document.getElementById("news_group_add").value;
-
+    var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
+    if(!pattern.test(dateAdd)){
+      alert("Invalid format of date! It must be yyyy-mm-dd");
+      return;
+    }
     if(headAdd.length>99){
       alert("Head value is too long!");
       return;
@@ -223,6 +227,11 @@ jQuery(document).ready(function () {
     var useFlagEdit = document.getElementById("use_flag_edit").value;
     var newsDateEdit = document.getElementById("news_date_edit").value;
     var newsGroupEdit = document.getElementById("news_group_edit").value;
+    var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
+    if(!pattern.test(newsDateEdit)){
+      alert("Invalid format of date! It must be yyyy-mm-dd");
+      return;
+    }
     if(headEdit.length>99){
       alert("Head value is too long!");
       return;
@@ -382,6 +391,7 @@ function find(headParam)
 {
   var xmlhttp = getXmlHttp();
   xmlhttp.open("POST", "http://localhost:3000?command=find&head_param="+headParam,false);
+  xmlhttp.setRequestHeader("Content-type: text/html; charset=utf-8");
   xmlhttp.onreadystatechange = function() {
     /*document.querySelector('#status').innerHTML = xmlhttp.responseText;*/
     mydata = xmlhttp.responseText;
@@ -396,10 +406,13 @@ var img1=document.createElement("img");
 function getBase64Image(path){
 
     var pp=path;
+
     img1.setAttribute('src',pp);
+canvas.setAttribute('origin-clean','true');
     canvas.width = img1.width;
     canvas.height = img1.height;
     var ctx = canvas.getContext("2d");
+img1.crossOrigin = "Anonymous";
     ctx.drawImage(img1, 0, 0);
     var dataURL = canvas.toDataURL("image/bmp");
     //document.getElementById("myimage").setAttribute("src",dataURL);

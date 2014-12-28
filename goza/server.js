@@ -1,4 +1,5 @@
-var express = require('express')
+﻿var express = require('express')
+var fs = require('fs')
 var dao = require('./DAO')
 var bodyParser = require('body-parser');
 var app = express();
@@ -9,6 +10,10 @@ app.post('/', function (req, res) {
 console.log("Params = ",req.param('text0'))
 console.log("Body = ",req.body);
 console.log("command = ",req.param('command'));
+
+res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
 switch(req.param('command'))
 
 {
@@ -44,12 +49,20 @@ case "find" :
 
 
 		app.get('/', function (req, res) {
-		site = "������ ���� ��������!!!!!!";
-		res.write(site);
-		res.end()
+res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+			res.sendFile('index.html',{root:__dirname});
+		});
+app.use(express.static(__dirname));
 
-})
 
+
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 

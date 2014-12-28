@@ -10,11 +10,13 @@ var connection = mysql.createConnection({
 connection.connect();
 
 var addNews=function(jsonString,response)
-  {console.log("ololo add");
+  {
 
   var data = JSON.parse(jsonString);
 
   var query = "insert into news (head,body,picture,use_flag,news_date,news_group) values ('"+data.head+"','"+data.body+"','"+data.picture+"','"+data.use_flag+"','"+data.news_date+"','"+data.news_group+"')";
+
+
 console.log(query);
 
   connection.query(query, function(err,rows,fields)
