@@ -138,7 +138,12 @@ jQuery(document).ready(function () {
           document.getElementById("head_edit").value=grid.jqGrid('getCell', ids[0], 'head');
           document.getElementById("body_edit").value=grid.jqGrid('getCell', ids[0], 'body');
           document.getElementById("hid").value=grid.jqGrid('getCell', ids[0], 'picture');
-          document.getElementById("use_flag_edit").value=grid.jqGrid('getCell', ids[0], 'use_flag');
+		  
+		  if(grid.jqGrid('getCell', ids[0], 'use_flag') == 1)
+          document.getElementById("use_flag_edit").checked=true;
+		  else
+		  document.getElementById("use_flag_edit").checked=false;
+		  
           document.getElementById("news_date_edit").value=grid.jqGrid('getCell', ids[0], 'news_date');
           document.getElementById("news_group_edit").value=grid.jqGrid('getCell', ids[0], 'news_group');
           }
@@ -165,14 +170,16 @@ jQuery(document).ready(function () {
         }
         var headAdd =  document.getElementById("head_add").value;
         var bodyAdd =   document.getElementById("body_add").value;
-        var flagAdd = document.getElementById("use_flag_add").value;
+		
+		var flagAdd;
+		if(document.getElementById("use_flag_add").checked)
+        flagAdd = 1;
+		else
+		flagAdd = 0;
+		
         var dateAdd = document.getElementById("news_date_add").value;
         var newsGroupAdd = document.getElementById("news_group_add").value;
-        var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
-        if(!pattern.test(dateAdd)){
-          alert("Invalid format of date! It must be yyyy-mm-dd");
-          return;
-        }
+       
         if(headAdd.length>99){
           alert("Head value is too long!");
           return;
@@ -183,10 +190,6 @@ jQuery(document).ready(function () {
           return;
         }
 
-        if(flagAdd!=1 && flagAdd!=0){
-          alert("Invalid use flag!");
-          return;
-        }
         if(headAdd.length ==0 || newsGroupAdd.length ==0 || flagAdd.length ==0 || bodyAdd.length ==0 || newsGroupAdd.length ==0){
           alert("One or some of your fields is empty!");
           return;
@@ -227,7 +230,13 @@ jQuery(document).ready(function () {
 
         var headEdit = document.getElementById("head_edit").value;
         var bodyEdit = document.getElementById("body_edit").value;
-        var useFlagEdit = document.getElementById("use_flag_edit").value;
+		
+		var useFlagEdit;
+		if(document.getElementById("use_flag_edit"))
+        useFlagEdit = 1;
+		else
+		useFlagEdit = 0;
+		
         var newsDateEdit = document.getElementById("news_date_edit").value;
         var newsGroupEdit = document.getElementById("news_group_edit").value;
         var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;
@@ -275,7 +284,12 @@ jQuery(document).ready(function () {
         editNewsArray["picture"] =base64x_pre_encode(document.getElementById("hid").value);
         var headEdit = document.getElementById("head_edit").value;
         var bodyEdit = document.getElementById("body_edit").value;
-        var useFlagEdit = document.getElementById("use_flag_edit").value;
+		var useFlagEdit;
+		if(document.getElementById("use_flag_edit").checked)
+        useFlagEdit = 1;
+		else
+		useFlagEdit = 0;
+		
         var newsDateEdit = document.getElementById("news_date_edit").value;
         var newsGroupEdit = document.getElementById("news_group_edit").value;
         var pattern = /^[12][90][0-9][0-9]\-[01]?[0-9]\-[0-3]?[0-9]$/;

@@ -11,8 +11,6 @@ console.log("Params = ",req.param('text0'))
 console.log("Body = ",req.body);
 console.log("command = ",req.param('command'));
 
-res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
 switch(req.param('command'))
 
